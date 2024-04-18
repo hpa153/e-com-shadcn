@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,10 +16,23 @@ import {
 import { Separator } from "./ui/separator";
 import { formatPrice } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
+import { useCart } from "@/hooks/use-cart";
+import CartItem from "./CartItem";
+import { ScrollArea } from "./ui/scroll-area";
 
 const Cart = () => {
-  const itemCount = 0;
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const { items } = useCart();
+  const itemCount = items.length;
+  const cartTotal = items.reduce(
+    (total, { product }) => total + product.price,
+    0
+  );
   const fee = 3.49;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <Sheet>
@@ -33,11 +47,17 @@ const Cart = () => {
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="space-y-2.5 pr-6">
-          <SheetTitle>Cart ({itemCount})</SheetTitle>
+          <SheetTitle>Cart ({isMounted ? itemCount : 0})</SheetTitle>
         </SheetHeader>
         {itemCount > 0 ? (
           <>
-            <div className="flex w-full flex-col pr-6">Cart Items</div>
+            <div className="flex w-full flex-col pr-6">
+              <ScrollArea>
+                {items.map(({ product }, idx) => (
+                  <CartItem key={idx} product={product} />
+                ))}
+              </ScrollArea>
+            </div>
 
             <div className="space-y-4 pr-6">
               <Separator />
@@ -52,7 +72,7 @@ const Cart = () => {
                 </div>
                 <div className="flex">
                   <span className="flex-1">Total</span>
-                  <span>{formatPrice(fee)}</span>
+                  <span>{formatPrice(cartTotal + fee)}</span>
                 </div>
               </div>
               <SheetFooter>
