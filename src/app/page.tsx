@@ -4,6 +4,7 @@ import { ArrowDownToLine, CheckCircle, Leaf } from "lucide-react";
 import PageWrapper from "@/components/PageWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import AdvertiserCard from "@/components/AdvertiserCard";
+import ProductReel from "@/components/ProductReel";
 
 const pros = [
   {
@@ -46,6 +47,13 @@ export default function Home() {
             <Button variant="ghost">Our quality promises &rarr;</Button>
           </div>
         </div>
+
+        <ProductReel
+          title="Top Trending"
+          subtitle="Shop the most trending UI Kits"
+          link="/products"
+          query={{ sort: "desc" }}
+        />
       </PageWrapper>
 
       <section className="border-t border-gray-200 bg-gray-50">
