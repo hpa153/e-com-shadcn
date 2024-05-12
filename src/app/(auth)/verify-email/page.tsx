@@ -2,13 +2,13 @@ import Image from "next/image";
 
 import EmailVerification from "@/components/EmailVerification";
 
-interface EmailVerificationProps {
+export interface SearchParamsProps {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
 }
 
-const VerifyEmailPage = ({ searchParams }: EmailVerificationProps) => {
+const VerifyEmailPage = ({ searchParams }: SearchParamsProps) => {
   const token = searchParams.token;
   const emailTo = searchParams.to;
 
