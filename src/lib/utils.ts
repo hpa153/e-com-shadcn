@@ -77,7 +77,7 @@ export function constructMetadata({
       creator: "@panh",
     },
     icons,
-    metadataBase: new URL("hpa-e-com.up.railway.app"),
+    metadataBase: new URL("https://hpa-e-com.up.railway.app"),
     ...(noIndex && {
       robots: {
         index: false,
