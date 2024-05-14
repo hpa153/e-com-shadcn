@@ -66,12 +66,13 @@ exports.PORT = void 0;
 var express_1 = __importDefault(require("express"));
 var trpcExpress = __importStar(require("@trpc/server/adapters/express"));
 var body_parser_1 = __importDefault(require("body-parser"));
-var build_1 = __importDefault(require("next/dist/build"));
-var get_payload_1 = require("./get-payload");
 var next_utils_1 = require("./next-utils");
+var build_1 = __importDefault(require("next/dist/build"));
+var path_1 = __importDefault(require("path"));
+var url_1 = require("url");
+var get_payload_1 = require("./get-payload");
 var trpc_1 = require("./trpc");
 var webhooks_1 = require("./webhooks");
-var path_1 = __importDefault(require("path"));
 var app = (0, express_1.default)();
 exports.PORT = Number(process.env.PORT) || 3000;
 var createContext = function (_a) {
@@ -82,7 +83,7 @@ var createContext = function (_a) {
     });
 };
 var startServer = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var webhookMiddleware, payload;
+    var webhookMiddleware, payload, cartRouter;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -123,6 +124,17 @@ var startServer = function () { return __awaiter(void 0, void 0, void 0, functio
                     }); });
                     return [2 /*return*/];
                 }
+                cartRouter = express_1.default.Router();
+                cartRouter.use(payload.authenticate);
+                cartRouter.get("/", function (req, res) {
+                    var request = req;
+                    if (!request.user) {
+                        return res.redirect("/sign-in?origin=cart");
+                    }
+                    var parsedUrl = (0, url_1.parse)(req.url, true);
+                    return next_utils_1.nextApp.render(req, res, "/cart", parsedUrl.query);
+                });
+                app.use("/cart", cartRouter);
                 app.use("/api/trpc", trpcExpress.createExpressMiddleware({
                     router: trpc_1.appRouter,
                     createContext: createContext,
