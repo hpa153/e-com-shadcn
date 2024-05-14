@@ -37,7 +37,7 @@ const ReceiptEmail = ({
   return (
     <Html>
       <Head />
-      <Preview>Your DigitalHippo Receipt</Preview>
+      <Preview>Your HippoCom Receipt</Preview>
 
       <Body style={main}>
         <Container style={container}>
@@ -47,7 +47,7 @@ const ReceiptEmail = ({
                 src={`${process.env.NEXT_PUBLIC_SERVER_URL}/hippo-email-sent.png`}
                 width="100"
                 height="100"
-                alt="DigitalHippo"
+                alt="HippoCom"
               />
             </Column>
 
@@ -164,7 +164,7 @@ const ReceiptEmail = ({
             <Link href="#">Privacy Policy </Link>
           </Text>
           <Text style={footerCopyright}>
-            Copyright © 2023 DigitalHippo Inc. <br />{" "}
+            Copyright © 2024 HippoCom Inc. <br />{" "}
             <Link href="#">All rights reserved</Link>
           </Text>
         </Container>
